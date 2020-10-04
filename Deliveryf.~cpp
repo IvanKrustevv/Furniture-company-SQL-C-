@@ -1,0 +1,131 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Deliveryf.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "MainWindow.h"
+#include "Neworderform.h"
+#include "Placeorderf.h"
+#include "Unit1_Data.h"
+#include "Materiialsform.h"
+#include "ADDnewclinet.h"
+#include "Facturaform.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TDeliveryForm *DeliveryForm;
+//---------------------------------------------------------------------------
+__fastcall TDeliveryForm::TDeliveryForm(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TDeliveryForm::Button1Click(TObject *Sender)
+{
+HomeScrean->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDeliveryForm::DeliveryHTblBeforePost(TDataSet *DataSet)
+{
+if(DeliveryHTbl->State == dsInsert)
+        {
+        DeliveryHSP->Prepare();
+        DeliveryHSP->ExecProc();
+        DeliveryHTbl->FieldByName("ID")->AsInteger = DeliveryHSP->ParamByName("ID")->AsInteger;
+        }
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TDeliveryForm::DdataTblBeforePost(TDataSet *DataSet)
+{
+if(DdataTbl->State == dsInsert)
+        {
+        DdataSP->Prepare();
+        DdataSP->ExecProc();
+        DdataTbl->FieldByName("ID")->AsInteger = DdataSP->ParamByName("ID")->AsInteger;
+        }
+
+
+}
+//---------------------------------------------------------------------------
+
+
+
+
+void __fastcall TDeliveryForm::RadioGroup1Click(TObject *Sender)
+{
+switch(RadioGroup1->ItemIndex)
+        {
+        case 0: DeliveryHTbl->IndexName = "DELIVERYHEADTBLDATEDNDX"; break;
+        case 1: DeliveryHTbl->IndexName = "DELIVERYHEADTBLNUMBERDNDX"; break;
+        }
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TDeliveryForm::Edit1Change(TObject *Sender)
+{
+TLocateOptions Prov;
+Prov.Clear();
+Prov<<loPartialKey;
+
+DeliveryHTbl->Locate("PROVIDER",Edit1->Text,Prov);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDeliveryForm::Edit2Change(TObject *Sender)
+{
+TLocateOptions Worker;
+Worker.Clear();
+Worker<<loPartialKey;
+
+DeliveryHTbl->Locate("RECIEVED_BY",Edit2->Text,Worker);        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDeliveryForm::Button4Click(TObject *Sender)
+{
+TLocateOptions Req;
+Req.Clear();
+Req<<loPartialKey;
+
+PlaceOrderform->RequestHTbl->Locate("NUMBER_R",DeliveryHTbl->FieldByName("Номер на заявка")->AsInteger,Req);
+
+PlaceOrderform->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDeliveryForm::Button3Click(TObject *Sender)
+{
+
+DdataTbl->First();
+Materials->MaterialTbl->First();
+for(int i = 0; i<DdataTbl->RecordCount; i++){
+        if(DdataTbl->FieldByName("DELIVERYHEAD_ID")->AsString ==  DeliveryHTbl->FieldByName("ID")->AsString){
+        for(int j = 0; j< Materials->MaterialTbl->RecordCount; j++){
+                if(Materials->MaterialTbl->FieldByName("ID")->AsString ==  DdataTbl->FieldByName("MATERIAL_ID")->AsString){
+                        if(Materials->MaterialTbl->FieldByName("PRICE_PER_PIECE")->AsFloat != DdataTbl->FieldByName("PRICE_OF_DELIVERY")->AsFloat){
+                        IBQuery1->Close();
+                        IBQuery1->ParamByName("ID")->AsInteger = Materials->MaterialTbl->FieldByName("ID")->AsInteger;
+                        IBQuery1->ParamByName("PRICE")->AsFloat = ((DdataTbl->FieldByName("PRICE_OF_DELIVERY")->AsFloat + Materials->MaterialTbl->FieldByName("PRICE_PER_PIECE")->AsFloat)/2);
+                        IBQuery1->ParamByName("QUAN")->AsInteger = (Materials->MaterialTbl->FieldByName("QUANTITY_ONHAND")->AsInteger + DdataTbl->FieldByName("QUANTITY")->AsInteger);
+                        IBQuery1->Prepare();
+                        IBQuery1->ExecSQL();
+                        Materials->MaterialTbl->Refresh();
+                        }
+                }
+        Materials->MaterialTbl->Next();
+        }
+        }
+        DdataTbl->Next();
+}
+}
+//---------------------------------------------------------------------------
+

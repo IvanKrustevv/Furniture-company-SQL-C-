@@ -1,0 +1,152 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Neworderform.h"
+#include "MainWindow.h"
+#include "Unit1_Data.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "ADDnewclinet.h"
+#include "Materiialsform.h"
+#include "Deliveryf.h"
+#include "Facturaform.h"
+#include "Helpf.h"
+#include "Placeorderf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TNeworder *Neworder;
+//---------------------------------------------------------------------------
+__fastcall TNeworder::TNeworder(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TNeworder::OrderTblBeforePost(TDataSet *DataSet)
+{
+if(OrderTbl->State == dsInsert)
+        {
+        OrderSP->Prepare();
+        OrderSP->ExecProc();
+        OrderTbl->FieldByName("ID")->AsInteger = OrderSP->ParamByName("ID")->AsInteger;
+        OrderTbl->FieldByName("NUMBER_ORDER")->AsInteger = OrderSP->ParamByName("ID")->AsInteger; 
+        }
+
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TNeworder::ContragentTblBeforePost(TDataSet *DataSet)
+{
+if(ContragentTbl->State == dsInsert)
+        {
+        ContragentSP->Prepare();
+        ContragentSP->ExecProc();
+        ContragentTbl->FieldByName("ID")->AsInteger = ContragentSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+void __fastcall TNeworder::RadioGroup1Click(TObject *Sender)
+{
+switch(RadioGroup1->ItemIndex)
+        {
+        case 0: ContragentTbl->IndexName = "CONTRAGENTNAMENDX" ; break;
+        case 1: ContragentTbl->IndexName = "CONTRAGENTBULSTAT_EGNNDX" ; break;
+        case 2: ContragentTbl->IndexName = "CONTRAGENTMOLNDX" ; break;
+        case 3: ContragentTbl->IndexName = "CONTRAGENTADDRESSNDX" ; break;
+        case 4: ContragentTbl->IndexName = "CONTRAGENTPERCENTAGENDX" ; break;
+        }
+}
+//---------------------------------------------------------------------------
+void __fastcall TNeworder::searcheditChange(TObject *Sender)
+{
+TLocateOptions Opts;
+Opts.Clear();
+Opts<<loPartialKey;
+
+switch(RadioGroup1->ItemIndex)
+        {
+        case 0: ContragentTbl->Locate("NAME",searchedit->Text,Opts); break;
+        case 1: ContragentTbl->Locate("BULSTAT_EGN",searchedit->Text,Opts); break;
+        case 2: ContragentTbl->Locate("MOL",searchedit->Text,Opts); break;
+        case 3: ContragentTbl->Locate("ADDRESS",searchedit->Text,Opts); break;
+        case 4: ContragentTbl->Locate("PERCENTAGE",searchedit->Text,Opts); break;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::Button1Click(TObject *Sender)
+{
+HomeScrean->Show();
+HomeScrean->ListofitemsTbl->Refresh();
+HomeScrean->IBQuery1->Close();
+HomeScrean->IBQuery1->Prepare();
+HomeScrean->IBQuery1->Open();
+ShowMessage("Поръчката е добавена");
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TNeworder::newclientbuttonClick(TObject *Sender)
+{
+Addnewclient->Show();
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::StatusTblBeforePost(TDataSet *DataSet)
+{
+        StatusSP->Prepare();
+        StatusSP->ExecProc();
+        StatusTbl->FieldByName("ID")->AsInteger = StatusSP->ParamByName("ID")->AsInteger;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TNeworder::Button2Click(TObject *Sender)
+{
+HomeScrean->Show();
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::Button3Click(TObject *Sender)
+{
+OrderTbl->Insert();
+OrderTbl->FieldByName("NUMBER_ORDER")->AsInteger = rand ();
+OrderTbl->FieldByName("CONTRAGENT_ID")->AsString = ContragentTbl->FieldByName("ID")->AsString;
+OrderTbl->FieldByName("CONTRAGENT")->AsString = ContragentTbl->FieldByName("NAME")->AsString;
+OrderTbl->FieldByName("PHONE")->AsInteger =  ContragentTbl->FieldByName("PHONE")->AsInteger;
+OrderTbl->FieldByName("WORKER_ID")->AsString =  Login->WorkerTbl->FieldByName("ID")->AsString;
+OrderTbl->FieldByName("PERCENTAGE_ORDER")->AsInteger =  ContragentTbl->FieldByName("PERCENTAGE")->AsInteger;
+OrderTbl->Post();
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::Button4Click(TObject *Sender)
+{
+OrderTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::Button5Click(TObject *Sender)
+{
+IBQuery1->Close();
+IBQuery1->ParamByName("ID")->AsInteger = OrderTbl->FieldByName("ID")->AsInteger;
+IBQuery1->Prepare();
+IBQuery1->ExecSQL();
+OrderTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TNeworder::Button6Click(TObject *Sender)
+{
+ContragentTbl->Delete();
+}
+//---------------------------------------------------------------------------
+

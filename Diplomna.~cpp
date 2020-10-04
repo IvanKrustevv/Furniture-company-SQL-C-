@@ -1,0 +1,53 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+//---------------------------------------------------------------------------
+USEFORM("Unit1_Data.cpp", Login);
+USEFORM("MainWindow.cpp", HomeScrean);
+USEFORM("Neworderform.cpp", Neworder);
+USEFORM("Contragentsform.cpp", Contragens);
+USEFORM("Itemsform.cpp", Items);
+USEFORM("Materiialsform.cpp", Materials);
+USEFORM("ADDnewclinet.cpp", Addnewclient);
+USEFORM("Helpf.cpp", Helpform);
+USEFORM("Placeorderf.cpp", PlaceOrderform);
+USEFORM("Deliveryf.cpp", DeliveryForm);
+USEFORM("Facturaform.cpp", Factura);
+//---------------------------------------------------------------------------
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
+        try
+        {
+                 Application->Initialize();
+                 Application->CreateForm(__classid(TLogin), &Login);
+                 Application->CreateForm(__classid(THomeScrean), &HomeScrean);
+                 Application->CreateForm(__classid(TNeworder), &Neworder);
+                 Application->CreateForm(__classid(TContragens), &Contragens);
+                 Application->CreateForm(__classid(TItems), &Items);
+                 Application->CreateForm(__classid(TMaterials), &Materials);
+                 Application->CreateForm(__classid(TAddnewclient), &Addnewclient);
+                 Application->CreateForm(__classid(THelpform), &Helpform);
+                 Application->CreateForm(__classid(TPlaceOrderform), &PlaceOrderform);
+                 Application->CreateForm(__classid(TDeliveryForm), &DeliveryForm);
+                 Application->CreateForm(__classid(TFactura), &Factura);
+                 Application->Run();
+        }
+        catch (Exception &exception)
+        {
+                 Application->ShowException(&exception);
+        }
+        catch (...)
+        {
+                 try
+                 {
+                         throw Exception("");
+                 }
+                 catch (Exception &exception)
+                 {
+                         Application->ShowException(&exception);
+                 }
+        }
+        return 0;
+}
+//---------------------------------------------------------------------------

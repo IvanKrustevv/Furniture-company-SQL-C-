@@ -1,0 +1,80 @@
+//---------------------------------------------------------------------------
+
+#ifndef FacturaformH
+#define FacturaformH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <ExtCtrls.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+//---------------------------------------------------------------------------
+class TFactura : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TIBTable *FacturaHTbl;
+        TIBStoredProc *FacturaHSP;
+        TDataSource *FacturaHDS;
+        TDBGrid *DBGrid1;
+        TDBGrid *DBGrid2;
+        TIBTable *FacturaDTbl;
+        TIBStoredProc *FacturaDSP;
+        TDataSource *FacturaDDS;
+        TLabel *Label1;
+        TIntegerField *FacturaDTblID;
+        TIntegerField *FacturaDTblFACTURAHEAD_ID;
+        TIntegerField *FacturaDTblITEM_ID;
+        TIntegerField *FacturaDTblQUANTITY;
+        TIBBCDField *FacturaDTblPRICE;
+        TStringField *FacturaDTblITEM;
+        TIntegerField *FacturaHTblID;
+        TIntegerField *FacturaHTblCONTRAGENT_ID;
+        TIntegerField *FacturaHTblFROM_ID;
+        TIntegerField *FacturaHTblPROVIDER_ID;
+        TIBStringField *FacturaHTblRECIEVED;
+        TIntegerField *FacturaHTblNUMBER_F;
+        TDateField *FacturaHTblDATE_F;
+        TStringField *FacturaHTblCONTRAGENT;
+        TStringField *FacturaHTblMOL;
+        TStringField *FacturaHTblADDRESS;
+        TStringField *FacturaHTblWORKER;
+        TStringField *FacturaHTblPROVIDER;
+        TStringField *FacturaHTblPMOL;
+        TStringField *FacturaHTblPADDRESS;
+        TIntegerField *FacturaHTblPPHONE;
+        TButton *Button1;
+        TButton *Button2;
+        TShape *Shape3;
+        TRadioGroup *RadioGroup1;
+        TLabel *Label2;
+        TEdit *Edit2;
+        TButton *Button8;
+        TButton *Button9;
+        TButton *Button10;
+        TButton *Button6;
+        void __fastcall FacturaHTblBeforePost(TDataSet *DataSet);
+        void __fastcall FacturaDTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button3Click(TObject *Sender);
+        void __fastcall RadioGroup1Click(TObject *Sender);
+        void __fastcall Button8Click(TObject *Sender);
+        void __fastcall Button10Click(TObject *Sender);
+        void __fastcall Button9Click(TObject *Sender);
+        void __fastcall Button6Click(TObject *Sender);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TFactura(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFactura *Factura;
+//---------------------------------------------------------------------------
+#endif

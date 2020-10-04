@@ -1,0 +1,79 @@
+//---------------------------------------------------------------------------
+
+#ifndef DeliveryfH
+#define DeliveryfH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <ExtCtrls.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+#include <IBQuery.hpp>
+//---------------------------------------------------------------------------
+class TDeliveryForm : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TDataSource *DeliveryHDS;
+        TIBTable *DeliveryHTbl;
+        TIBStoredProc *DeliveryHSP;
+        TDBGrid *DBGrid1;
+        TLabel *Label1;
+        TButton *Button1;
+        TIntegerField *DeliveryHTblID;
+        TIntegerField *DeliveryHTblPROVIDER_ID;
+        TIntegerField *DeliveryHTblACCEPTED_BY_ID;
+        TIntegerField *DeliveryHTblREQUESTHEAD_ID;
+        TIntegerField *DeliveryHTblFACTURAHEAD_ID;
+        TIntegerField *DeliveryHTblNUMBER_D;
+        TIBStringField *DeliveryHTblDESCRIPTION;
+        TDateField *DeliveryHTblDATE_D;
+        TStringField *DeliveryHTblPROVIDER;
+        TStringField *DeliveryHTblADDRESS;
+        TStringField *DeliveryHTblRECIEVED_BY;
+        TRadioGroup *RadioGroup1;
+        TLabel *Label2;
+        TLabel *Label3;
+        TShape *Shape1;
+        TShape *Shape2;
+        TEdit *Edit1;
+        TEdit *Edit2;
+        TIBTable *DdataTbl;
+        TIBStoredProc *DdataSP;
+        TDataSource *DdataDS;
+        TDBGrid *DBGrid2;
+        TIntegerField *DdataTblID;
+        TIntegerField *DdataTblDELIVERYHEAD_ID;
+        TIntegerField *DdataTblMATERIAL_ID;
+        TIntegerField *DdataTblQUANTITY;
+        TIBBCDField *DdataTblPRICE_OF_DELIVERY;
+        TStringField *DdataTblMATERIAL;
+        TStringField *DdataTblMEASURE;
+        TIntegerField *DeliveryHTblField;
+        TIntegerField *DeliveryHTblField2;
+        TIBQuery *IBQuery1;
+        TButton *Button4;
+        TButton *Button3;
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall DeliveryHTblBeforePost(TDataSet *DataSet);
+        void __fastcall DdataTblBeforePost(TDataSet *DataSet);
+        void __fastcall RadioGroup1Click(TObject *Sender);
+        void __fastcall Edit1Change(TObject *Sender);
+        void __fastcall Edit2Change(TObject *Sender);
+        void __fastcall Button4Click(TObject *Sender);
+        void __fastcall Button3Click(TObject *Sender);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TDeliveryForm(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TDeliveryForm *DeliveryForm;
+//---------------------------------------------------------------------------
+#endif

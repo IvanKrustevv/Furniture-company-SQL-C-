@@ -1,0 +1,42 @@
+//---------------------------------------------------------------------------
+
+#ifndef HelpfH
+#define HelpfH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <ExtCtrls.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+//---------------------------------------------------------------------------
+class THelpform : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TDBGrid *DBGrid1;
+        TButton *DeleteW;
+        TButton *Button2;
+        TDBGrid *DBGrid2;
+        TButton *DeleteP;
+        TButton *RefreshW;
+        TButton *RefreshP;
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall DeleteWClick(TObject *Sender);
+        void __fastcall DeletePClick(TObject *Sender);
+        void __fastcall RefreshWClick(TObject *Sender);
+        void __fastcall RefreshPClick(TObject *Sender);
+private:	// User declarations
+public:		// User declarations
+        __fastcall THelpform(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE THelpform *Helpform;
+//---------------------------------------------------------------------------
+#endif

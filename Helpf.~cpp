@@ -1,0 +1,53 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Helpf.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "MainWindow.h"
+#include "Materiialsform.h"
+#include "Neworderform.h"
+#include "Unit1_Data.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+THelpform *Helpform;
+//---------------------------------------------------------------------------
+__fastcall THelpform::THelpform(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall THelpform::Button2Click(TObject *Sender)
+{
+
+HomeScrean->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THelpform::DeleteWClick(TObject *Sender)
+{
+Login->WorkerTbl->Delete();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THelpform::DeletePClick(TObject *Sender)
+{
+Login->PositionTbl->Delete();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THelpform::RefreshWClick(TObject *Sender)
+{
+Login->WorkerTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THelpform::RefreshPClick(TObject *Sender)
+{
+Login->PositionTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+

@@ -1,0 +1,74 @@
+//---------------------------------------------------------------------------
+
+#ifndef PlaceorderfH
+#define PlaceorderfH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <ExtCtrls.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+//---------------------------------------------------------------------------
+class TPlaceOrderform : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TIBTable *RequestHTbl;
+        TIBStoredProc *RequestHSP;
+        TDataSource *RequestHDS;
+        TDBGrid *DBGrid1;
+        TButton *Button1;
+        TButton *Button2;
+        TButton *Button3;
+        TLabel *Label1;
+        TLabel *Label2;
+        TEdit *searchedit;
+        TIntegerField *RequestHTblID;
+        TIntegerField *RequestHTblREQUEST_FROM_ID;
+        TIntegerField *RequestHTblSTATUS_ID;
+        TIntegerField *RequestHTblNUMBER_R;
+        TDateField *RequestHTblDATE_R;
+        TIBStringField *RequestHTblDESCR;
+        TStringField *RequestHTblORDERED_FROM;
+        TStringField *RequestHTblSTATUS;
+        TShape *Shape1;
+        TIBTable *RequestDTbl;
+        TIBStoredProc *RequestDSP;
+        TDataSource *DataSource1;
+        TDBGrid *DBGrid2;
+        TIntegerField *RequestDTblID;
+        TIntegerField *RequestDTblREQUESTHEAD_ID;
+        TIntegerField *RequestDTblPROVIDER_ID;
+        TIntegerField *RequestDTblMATERIAL_ID;
+        TIntegerField *RequestDTblQUANTITY;
+        TIBStringField *RequestDTblNOTE;
+        TStringField *RequestDTblPROVIDER;
+        TStringField *RequestDTblPMOL;
+        TStringField *RequestDTblPADDRESS;
+        TIntegerField *RequestDTblPPHONE;
+        TStringField *RequestDTblMATERIAL;
+        TStringField *RequestDTblMEASURE;
+        TButton *Button4;
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall RequestHTblBeforePost(TDataSet *DataSet);
+        void __fastcall RequestDTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button3Click(TObject *Sender);
+        void __fastcall Button4Click(TObject *Sender);
+        void __fastcall Button5Click(TObject *Sender);
+        void __fastcall IBTable1BeforePost(TDataSet *DataSet);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TPlaceOrderform(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TPlaceOrderform *PlaceOrderform;
+//---------------------------------------------------------------------------
+#endif

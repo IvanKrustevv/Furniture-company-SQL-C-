@@ -1,0 +1,80 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1_Data.h"
+#include "MainWindow.h"
+#include "ADDnewclinet.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "Neworderform.h"
+#include "Helpf.h"
+#include "Materiialsform.h"
+#include "Deliveryf.h"
+#include "Facturaform.h"
+#include "Placeorderf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TLogin *Login;
+//---------------------------------------------------------------------------
+__fastcall TLogin::TLogin(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TLogin::WorkerTblBeforePost(TDataSet *DataSet)
+{
+if(WorkerTbl->State == dsInsert)
+        {
+        WorkerSP->Prepare();
+        WorkerSP->ExecProc();
+        WorkerTbl->FieldByName("ID")->AsInteger = WorkerSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TLogin::Button2Click(TObject *Sender)
+{
+Application->Terminate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TLogin::Button1Click(TObject *Sender)
+{
+
+bool found = false;
+WorkerTbl->First();
+for(int i = 0; i< WorkerTbl->RecordCount;i++){
+        if(WorkerTbl->FieldByName("FNAME")->AsString == nameedit->Text)
+                if(WorkerTbl->FieldByName("LNAME")->AsString.LowerCase() == passedit->Text.LowerCase())
+                {
+                found = true;
+                HomeScrean->Show();
+                HomeScrean->Label1->Caption = "Добре дошли " + nameedit->Text + "!";
+                return;
+                }
+        WorkerTbl->Next();
+        }
+if(!found){
+
+        ShowMessage("Потребиелско име и парола не съвпадат !");
+        }
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TLogin::PositionTblBeforePost(TDataSet *DataSet)
+{
+if(PositionTbl->State == dsInsert)
+        {
+        PositionSP->Prepare();
+        PositionSP->ExecProc();
+        PositionTbl->FieldByName("ID")->AsInteger = PositionSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+
+

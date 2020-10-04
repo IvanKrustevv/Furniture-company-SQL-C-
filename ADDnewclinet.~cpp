@@ -1,0 +1,80 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "ADDnewclinet.h"
+#include "MainWindow.h"
+#include "Materiialsform.h"
+#include "Neworderform.h"
+#include "Unit1_Data.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "Deliveryf.h"
+#include "Facturaform.h"
+#include "Placeorderf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TAddnewclient *Addnewclient;
+//---------------------------------------------------------------------------
+__fastcall TAddnewclient::TAddnewclient(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TAddnewclient::Button1Click(TObject *Sender)
+{
+bool found = false;
+Neworder->ContragentTbl->First();
+for(int i=0 ; i<Neworder->ContragentTbl->RecordCount; i++)
+        {
+        if(Neworder->ContragentTbl->FieldByName("NAME")->AsString.LowerCase() ==
+        Editname->Text.LowerCase())
+                if(Neworder->ContragentTbl->FieldByName("BULSTAT_EGN")->AsInteger ==
+                   Editegn->Text)
+                   {
+                         found = true;
+                         break;
+                   }
+        Neworder->ContragentTbl->Next();
+        }
+
+if(found){
+        ShowMessage("A client with this information already exists");
+        TLocateOptions Opts1;
+        Opts1.Clear();
+        Opts1<<loPartialKey;
+
+        Neworder->ContragentTbl->Locate("NAME",Editname->Text,Opts1);
+        Addnewclient->Hide();
+        Neworder->Show();
+        }
+else
+        ShowMessage("New client !");
+
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TAddnewclient::Button2Click(TObject *Sender)
+{
+Neworder->ContragentTbl->Insert();
+Neworder->ContragentTbl->FieldByName("NAME")->AsString = Editname->Text;
+Neworder->ContragentTbl->FieldByName("BULSTAT_EGN")->AsString = Editegn->Text;
+Neworder->ContragentTbl->FieldByName("MOL")->AsString = Editmol->Text;
+Neworder->ContragentTbl->FieldByName("ADDRESS")->AsString = Editaddr->Text;
+Neworder->ContragentTbl->FieldByName("PERCENTAGE")->AsString = Editper->Text;
+Neworder->ContragentTbl->FieldByName("PHONE")->AsString = Editphone->Text;
+Neworder->ContragentTbl->Post();
+
+Neworder->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TAddnewclient::Button3Click(TObject *Sender)
+{
+
+Neworder->Show();
+}
+//---------------------------------------------------------------------------
+

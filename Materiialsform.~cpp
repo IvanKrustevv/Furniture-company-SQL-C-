@@ -1,0 +1,133 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Materiialsform.h"
+#include "MainWindow.h"
+#include "Unit1_Data.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "Neworderform.h"
+#include "ADDnewclinet.h"
+#include "Deliveryf.h"
+#include "Placeorderf.h"
+#include "Facturaform.h"
+#include "Helpf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TMaterials *Materials;
+//---------------------------------------------------------------------------
+__fastcall TMaterials::TMaterials(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TMaterials::MaterialTblBeforePost(TDataSet *DataSet)
+{
+if(MaterialTbl->State == dsInsert)
+        {
+        MaterialSP->Prepare();
+        MaterialSP->ExecProc();
+        MaterialTbl->FieldByName("ID")->AsInteger = MaterialSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+void __fastcall TMaterials::MeasureTblBeforePost(TDataSet *DataSet)
+{
+if(MeasureTbl->State == dsInsert)
+        {
+        MeasureSP->Prepare();
+        MeasureSP->ExecProc();
+        MeasureTbl->FieldByName("ID")->AsInteger = MeasureSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMaterials::Button2Click(TObject *Sender)
+{
+
+HomeScrean->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMaterials::Button3Click(TObject *Sender)
+{
+PlaceOrderform->Show();
+Button1->Visible = false;
+Button5->Visible = true;
+Button3->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TMaterials::Button6Click(TObject *Sender)
+{
+MaterialTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMaterials::Button5Click(TObject *Sender)
+{ srand((unsigned)time(NULL));
+PlaceOrderform->RequestHTbl->Insert();
+PlaceOrderform->RequestHTbl->FieldByName("NUMBER_R")->AsInteger = rand()%10;
+PlaceOrderform->RequestHTbl->FieldByName("STATUS_ID")->AsInteger = Neworder->StatusTbl->FieldByName("ID")->AsInteger;
+PlaceOrderform->RequestHTbl->FieldByName("REQUEST_FROM_ID")->AsString = Login->WorkerTbl->FieldByName("ID")->AsString;
+PlaceOrderform->RequestHTbl->Post();
+
+Button1->Visible = true;
+Button3->Visible = true;
+Button5->Visible = false;
+DBGrid3->Visible = true;
+
+
+
+
+
+
+
+
+
+}
+//---------------------------------------------------------------------------
+
+
+
+
+void __fastcall TMaterials::materialeditChange(TObject *Sender)
+{
+TLocateOptions LocMat;
+LocMat.Clear();
+LocMat<<loPartialKey;
+
+MaterialTbl->Locate("NAME",materialedit->Text,LocMat);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMaterials::Button1Click(TObject *Sender)
+{
+PlaceOrderform->RequestDTbl->Insert();
+PlaceOrderform->RequestDTbl->FieldByName("MATERIAL_ID")->AsInteger = Materials->MaterialTbl->FieldByName("ID")->AsInteger;
+if(Materials->MaterialTbl->FieldByName("MEASURE_ID")->AsInteger == 1)
+PlaceOrderform->RequestDTbl->FieldByName("PROVIDER_ID")->AsInteger = 2;
+
+else if (Materials->MaterialTbl->FieldByName("MEASURE_ID")->AsInteger == 2)
+PlaceOrderform->RequestDTbl->FieldByName("PROVIDER_ID")->AsInteger = 3;
+PlaceOrderform->RequestDTbl->Post();
+PlaceOrderform->RequestDTbl->Refresh();
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMaterials::Edit1Change(TObject *Sender)
+{
+TLocateOptions LocMatid;
+LocMatid.Clear();
+LocMatid<<loPartialKey;
+
+MaterialTbl->Locate("ID",Edit1->Text,LocMatid);
+}
+//---------------------------------------------------------------------------
+

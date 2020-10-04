@@ -1,0 +1,84 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Contragentsform.h"
+#include "MainWindow.h"
+#include "Neworderform.h"
+#include "Unit1_Data.h"
+#include "Itemsform.h"
+#include "ADDnewclinet.h"
+#include "Materiialsform.h"
+#include "Placeorderf.h"
+#include "Deliveryf.h"
+#include "Facturaform.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TContragens *Contragens;
+//---------------------------------------------------------------------------
+__fastcall TContragens::TContragens(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TContragens::RadioGroup1Click(TObject *Sender)
+{
+switch(RadioGroup1->ItemIndex)
+        {
+        case 0: Neworder->ContragentTbl->IndexName = "CONTRAGENTNAMENDX" ; break;
+        case 1: Neworder->ContragentTbl->IndexName = "CONTRAGENTBULSTAT_EGNNDX" ; break;
+        case 2: Neworder->ContragentTbl->IndexName = "CONTRAGENTMOLNDX" ; break;
+        case 3: Neworder->ContragentTbl->IndexName = "CONTRAGENTADDRESSNDX" ; break;
+        case 4: Neworder->ContragentTbl->IndexName = "CONTRAGENTPERCENTAGENDX" ; break;
+        case 5: Neworder->ContragentTbl->IndexName = "" ; break;
+        }
+}
+//---------------------------------------------------------------------------
+void __fastcall TContragens::searcheditChange(TObject *Sender)
+{
+TLocateOptions Opts;
+Opts.Clear();
+Opts<<loPartialKey;
+
+switch(RadioGroup1->ItemIndex)
+        {
+        case 0: Neworder->ContragentTbl->Locate("NAME",searchedit->Text,Opts); break;
+        case 1: Neworder->ContragentTbl->Locate("BULSTAT_EGN",searchedit->Text,Opts); break;
+        case 2: Neworder->ContragentTbl->Locate("MOL",searchedit->Text,Opts); break;
+        case 3: Neworder->ContragentTbl->Locate("ADDRESS",searchedit->Text,Opts); break;
+        case 4: Neworder->ContragentTbl->Locate("PERCENTAGE",searchedit->Text,Opts); break;
+        }
+}
+//---------------------------------------------------------------------------
+void __fastcall TContragens::Button1Click(TObject *Sender)
+{
+
+HomeScrean->Show();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TContragens::Button2Click(TObject *Sender)
+{
+IBQuery1->Close();
+IBQuery1->ParamByName("PER")->AsString = ParamEdit->Text;
+IBQuery1->Prepare();
+IBQuery1->Open();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TContragens::Button3Click(TObject *Sender)
+{
+Neworder->ContragentTbl->Delete();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TContragens::Button4Click(TObject *Sender)
+{
+Addnewclient->Show();
+}
+//---------------------------------------------------------------------------
+

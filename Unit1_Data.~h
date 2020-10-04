@@ -1,0 +1,61 @@
+//---------------------------------------------------------------------------
+
+#ifndef Unit1_DataH
+#define Unit1_DataH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <IBDatabase.hpp>
+#include <ExtCtrls.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+#include <Mask.hpp>
+#include <IBStoredProc.hpp>
+#include <Menus.hpp>
+//---------------------------------------------------------------------------
+class TLogin : public TForm
+{
+__published:	// IDE-managed Components
+        TIBDatabase *FurnitureDB;
+        TIBTransaction *IBTransaction1;
+        TImage *background;
+        TShape *loginshape;
+        TLabel *Label1;
+        TLabel *Label2;
+        TLabel *Label3;
+        TEdit *nameedit;
+        TMaskEdit *passedit;
+        TShape *Shape1;
+        TShape *Shape2;
+        TButton *Button1;
+        TButton *Button2;
+        TIBTable *WorkerTbl;
+        TDataSource *WorketDS;
+        TIBStoredProc *WorkerSP;
+        TIntegerField *WorkerTblID;
+        TIntegerField *WorkerTblPOSITION_ID;
+        TIBStringField *WorkerTblFNAME;
+        TIBStringField *WorkerTblLNAME;
+        TIntegerField *WorkerTblPHONE;
+        TDataSource *PositionDS;
+        TIBTable *PositionTbl;
+        TIBStoredProc *PositionSP;
+        TStringField *WorkerTblPOSITION;
+        TIntegerField *PositionTblID;
+        TIBStringField *PositionTblPOSITION_NAME;
+        void __fastcall WorkerTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall PositionTblBeforePost(TDataSet *DataSet);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TLogin(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TLogin *Login;
+//---------------------------------------------------------------------------
+#endif

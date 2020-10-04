@@ -1,0 +1,269 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Itemsform.h"
+#include "Contragentsform.h"
+#include "MainWindow.h"
+#include "Neworderform.h"
+#include "Unit1_Data.h"
+#include "ADDnewclinet.h"
+#include "Materiialsform.h"
+#include "Deliveryf.h"
+#include "Placeorderf.h"
+#include "Facturaform.h"
+#include "Helpf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TItems *Items;
+//---------------------------------------------------------------------------
+__fastcall TItems::TItems(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TItems::ItemTblBeforePost(TDataSet *DataSet)
+{
+if (ItemTbl->State == dsInsert)
+        {
+        ItemSP->Prepare();
+        ItemSP->ExecProc();
+        ItemTbl->FieldByName("ID")->AsInteger = ItemSP->ParamByName("ID")->AsInteger;
+        }
+
+  
+}
+//---------------------------------------------------------------------------
+void __fastcall TItems::Button1Click(TObject *Sender)
+{
+HomeScrean->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::ItemtypeTblBeforePost(TDataSet *DataSet)
+{
+if(ItemtypeTbl->State == dsInsert)
+        {
+       ItemtypeSP->Prepare();
+       ItemtypeSP->ExecProc();
+       ItemtypeTbl->FieldByName("ID")->AsInteger = ItemtypeSP->ParamByName("ID")->AsInteger;
+       }
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TItems::Edit1Change(TObject *Sender)
+{
+TLocateOptions Opts2;
+Opts2.Clear();
+Opts2<<loPartialKey;
+
+Materials->MaterialTbl->Locate("NAME",Edit1->Text,Opts2);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::Edit2Change(TObject *Sender)
+{
+TLocateOptions Opts3;
+Opts3.Clear();
+Opts3<<loPartialKey;
+
+Materials->MaterialTbl->Locate("ID",Edit2->Text,Opts3);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::Button2Click(TObject *Sender)
+{
+
+HomeScrean->ListofitemsTbl->Insert();
+HomeScrean->ListofitemsTbl->FieldByName("ITEM_ID")->AsInteger = ItemTbl->FieldByName("ID")->AsInteger;
+HomeScrean->ListofitemsTbl->FieldByName("ORDER_ID")->AsInteger = Neworder->OrderTbl->FieldByName("ID")->AsInteger;
+HomeScrean->ListofitemsTbl->Post();
+
+HomeScrean->IBQuery4->Close();
+HomeScrean->IBQuery4->ParamByName("PRICE")->AsString = (Items->SumQueryTOTAL->AsString * Edit5->Text);
+HomeScrean->IBQuery4->ParamByName("QUANTITY")->AsString = Edit5->Text;
+HomeScrean->IBQuery4->ParamByName("ID")->AsInteger = HomeScrean->ListofitemsTbl->FieldByName("ID")->AsInteger;
+HomeScrean->IBQuery4->Prepare();
+HomeScrean->IBQuery4->ExecSQL();
+
+HomeScrean->ListofitemsTbl->Refresh();
+HomeScrean->IBQuery1->Close();
+HomeScrean->IBQuery1->Prepare();
+HomeScrean->IBQuery1->Open();
+
+HomeScrean->IBQuery2->Close();
+HomeScrean->IBQuery2->Prepare();
+HomeScrean->IBQuery2->Open();
+
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TItems::RefreshClick(TObject *Sender)
+{
+CostrateTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::AddMatClick(TObject *Sender)
+{
+CostrateTbl->Insert();
+CostrateTbl->FieldByName("ITEM_ID")->AsInteger = ItemTbl->FieldByName("ID")->AsInteger;
+//CostrateTbl->FieldByName("ITEM")->AsString =  ItemTbl->FieldByName("NAME")->AsString;
+CostrateTbl->FieldByName("MATERIAL_ID")->AsInteger = Materials->MaterialTbl->FieldByName("ID")->AsInteger;
+CostrateTbl->FieldByName("PRICE")->AsString = Materials->MaterialTbl->FieldByName("PRICE_PER_PIECE")->AsString;
+CostrateTbl->Post();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TItems::RemoveMatClick(TObject *Sender)
+{
+CostrateTbl->Delete();
+
+SumQuery->Close();
+SumQuery->ParamByName("ID")->AsInteger = CostrateTbl->FieldByName("ITEM_ID")->AsInteger;
+SumQuery->Prepare();
+SumQuery->Open();
+Edit6->Text = SumQueryTOTAL->AsString;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TItems::ItemeditChange(TObject *Sender)
+{
+TLocateOptions ITID;
+ITID.Clear();
+ITID<<loPartialKey;
+
+CostrateTbl->Locate("ITEM_ID",Itemedit->Text,ITID);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::Button3Click(TObject *Sender)
+{
+Items->Button4->Visible = true;
+Items->Label5->Visible = true ;
+Items->Edit5->Visible = true ;
+Button2->Visible = true ;
+
+Items->AddMat->Visible = true;
+Items->Calc->Visible = true;
+Items->RemoveMat->Visible = true;
+HomeScrean->Show();
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TItems::Button4Click(TObject *Sender)
+{
+Edit3->Text=CostrateTbl->FieldByName("QUANTITY")->AsString;
+Edit4->Text=Materials->MaterialTbl->FieldByName("PRICE_PER_PIECE")->AsString;
+HomeScrean->Show();
+Items->AddMat->Visible = true;
+Items->Calc->Visible = true;
+Items->RemoveMat->Visible = true;
+
+HomeScrean->Edit3->Text = HomeScrean->ListofitemsTbl->FieldByName("ORDER_ID")->AsString;
+
+HomeScrean->IBQuery2->Close();
+HomeScrean->IBQuery2->ParamByName("ID")->AsString = HomeScrean->Edit3->Text;
+HomeScrean->IBQuery2->Prepare();
+HomeScrean->IBQuery2->Open();
+
+ShowMessage("Артикулите са добавени");
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::CalcClick(TObject *Sender)
+{
+
+Edit3->Text=CostrateTbl->FieldByName("QUANTITY")->AsString;
+Edit4->Text=Materials->MaterialTbl->FieldByName("PRICE_PER_PIECE")->AsString;
+
+IBQuery1->Close();
+IBQuery1->ParamByName("PRICE")->AsFloat = (Edit3->Text * Edit4->Text);
+IBQuery1->ParamByName("ID")->AsInteger = CostrateTbl->FieldByName("ID")->AsInteger;
+IBQuery1->Prepare();
+IBQuery1->ExecSQL();
+
+IBQuery2->Close();
+IBQuery2->ParamByName("QUANTITY")->AsInteger = (Materials->MaterialTbl->FieldByName("QUANTITY_ONHAND")->AsString - Edit3->Text);
+IBQuery2->ParamByName("ID")->AsInteger = Materials->MaterialTbl->FieldByName("ID")->AsInteger;
+IBQuery2->Prepare();
+IBQuery2->ExecSQL();
+
+CostrateTbl->Refresh();
+Materials->MaterialTbl->Refresh();
+
+SumQuery->Close();
+SumQuery->ParamByName("ID")->AsInteger = CostrateTbl->FieldByName("ITEM_ID")->AsInteger;
+SumQuery->Prepare();
+SumQuery->Open();
+Edit6->Text = SumQueryTOTAL->AsString;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::Button5Click(TObject *Sender)
+{
+Materials->MaterialTbl->Refresh();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TItems::Button6Click(TObject *Sender)
+{
+SumQuery->Close();
+SumQuery->ParamByName("ID")->AsInteger = CostrateTbl->FieldByName("ITEM_ID")->AsInteger;
+SumQuery->Prepare();
+SumQuery->Open();
+Edit6->Text = SumQueryTOTAL->AsString;
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TItems::CostrateTblBeforePost(TDataSet *DataSet)
+{
+if(CostrateTbl->State == dsInsert)
+        {
+        CostrateSP->Prepare();
+       CostrateSP->ExecProc();
+       CostrateTbl->FieldByName("ID")->AsInteger = CostrateSP->ParamByName("ID")->AsInteger;
+       }
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TItems::DBGrid2ColumnMoved(TObject *Sender, int FromIndex,
+      int ToIndex)
+{
+TLocateOptions MATN;
+MATN.Clear();
+MATN<<loPartialKey;
+
+Materials->MaterialTbl->Locate("ID",CostrateTbl->FieldByName("MATERIAL_ID")->AsInteger,MATN);          
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TItems::DBGrid1CellClick(TColumn *Column)
+{
+SumQuery->Close();
+SumQuery->ParamByName("ID")->AsInteger = CostrateTbl->FieldByName("ITEM_ID")->AsInteger;
+SumQuery->Prepare();
+SumQuery->Open();
+Edit6->Text = SumQueryTOTAL->AsString;
+}
+//---------------------------------------------------------------------------
+

@@ -1,0 +1,194 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "MainWindow.h"
+#include "Unit1_Data.h"
+#include "Neworderform.h"
+#include "Contragentsform.h"
+#include "Itemsform.h"
+#include "Materiialsform.h"
+#include "ADDnewclinet.h"
+#include "Helpf.h"
+#include "Deliveryf.h"
+#include "Facturaform.h"
+#include "Placeorderf.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+THomeScrean *HomeScrean;
+//---------------------------------------------------------------------------
+__fastcall THomeScrean::THomeScrean(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::ListofitemsTblBeforePost(TDataSet *DataSet)
+{
+if(ListofitemsTbl->State == dsInsert)
+        {
+        ListofitemsSP->Prepare();
+        ListofitemsSP->ExecProc();
+        ListofitemsTbl->FieldByName("ID")->AsInteger = ListofitemsSP->ParamByName("ID")->AsInteger;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Button2Click(TObject *Sender)
+{
+Items->AddMat->Visible = false;
+Items->Calc->Visible = false;
+Items->RemoveMat->Visible = false;
+Items->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Button1Click(TObject *Sender)
+{
+Application->Terminate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::newclientbuttonClick(TObject *Sender)
+{
+Neworder->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Button11Click(TObject *Sender)
+{
+TLocateOptions Onum;
+Onum.Clear();
+Onum<<loPartialKey;
+
+IBQuery2->Locate("NUMBER_ORDER",Edit1->Text,Onum);
+IBQuery1->Locate("NUMBER_ORDER",Edit1->Text,Onum);
+Neworder->OrderTbl->Locate("NUMBER_ORDER",Edit1->Text,Onum);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Button12Click(TObject *Sender)
+{
+TLocateOptions Oaddr;
+Oaddr.Clear();
+Oaddr<<loPartialKey;
+
+IBQuery2->Locate("ADDRESS",Edit2->Text,Oaddr);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Button9Click(TObject *Sender)
+{
+srand((unsigned)time(NULL));
+Factura->FacturaHTbl->Insert();
+Factura->FacturaHTbl->FieldByName("NUMBER_F")->AsInteger = rand()%10;
+Factura->FacturaHTbl->FieldByName("PROVIDER_ID")->AsInteger = 1;
+Factura->FacturaHTbl->FieldByName("FROM_ID")->AsString= Login->WorkerTbl->FieldByName("ID")->AsString;
+Factura->FacturaHTbl->FieldByName("CONTRAGENT_ID")->AsInteger = Neworder->ContragentTbl->FieldByName("ID")->AsInteger;
+Factura->FacturaHTbl->Post();
+
+
+HomeScrean->ListofitemsTbl->First();
+for(int j = 0; j< ListofitemsTbl->RecordCount; j++){
+if(ListofitemsTbl->FieldByName("ORDER_ID")->AsString == Edit3->Text)
+                {
+                Factura->FacturaDTbl->Insert();
+                Factura->FacturaDTbl->FieldByName("ITEM_ID")->AsInteger = HomeScrean->ListofitemsTbl->FieldByName("ITEM_ID")->AsInteger;
+                Factura->FacturaDTbl->FieldByName("QUANTITY")->AsInteger = HomeScrean->ListofitemsTbl->FieldByName("QUANTITY")->AsInteger;
+                Factura->FacturaDTbl->FieldByName("FACTURAHEAD_ID")->AsInteger = Factura->FacturaHTbl->FieldByName("ID")->AsInteger;
+                Factura->FacturaDTbl->FieldByName("PRICE")->AsFloat = HomeScrean->ListofitemsTbl->FieldByName("PRICE")->AsFloat;
+                Factura->FacturaDTbl->Post();
+                Factura->FacturaDTbl->Refresh();
+                Factura->FacturaDTbl->Next();
+                }
+HomeScrean->ListofitemsTbl->Next();
+}
+Factura->Show();
+}
+//---------------------------------------------------------------------------
+void __fastcall THomeScrean::Exit1Click(TObject *Sender)
+{
+Application->Terminate();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Logout1Click(TObject *Sender)
+{
+Application->Terminate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Materials1Click(TObject *Sender)
+{
+Materials->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Ordersplaced1Click(TObject *Sender)
+{
+PlaceOrderform->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Deliveries1Click(TObject *Sender)
+{
+DeliveryForm->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Receipts1Click(TObject *Sender)
+{
+Factura->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Co1Click(TObject *Sender)
+{
+Helpform->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::Show1Click(TObject *Sender)
+{
+Contragens->Show(); 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::CreateItem1Click(TObject *Sender)
+{
+Items->Button4->Visible = false;
+Items->Button2->Visible = false ;
+Items->Label5->Visible = false ;
+Items->Edit5->Visible = false ;
+Items->Show();        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall THomeScrean::DBGrid1CellClick(TColumn *Column)
+{
+
+HomeScrean->IBQuery1->DisableControls();
+TBookmark SavePlace;
+SavePlace = HomeScrean->IBQuery1->GetBookmark();
+HomeScrean->IBQuery1->GotoBookmark(SavePlace);
+HomeScrean->IBQuery1->EnableControls();
+HomeScrean->IBQuery1->FreeBookmark(SavePlace);
+
+Edit3->Text = DBGrid1->SelectedField->AsString;
+HomeScrean->IBQuery2->Close();
+HomeScrean->IBQuery2->ParamByName("ID")->AsString = DBGrid1->SelectedField->AsString;
+HomeScrean->IBQuery2->Prepare();
+HomeScrean->IBQuery2->Open();
+
+
+TLocateOptions Loc;
+Loc.Clear();
+Loc<<loPartialKey;
+
+IBQuery1->Locate("NUMBER_ORDER",Edit3->Text,Loc);
+
+}
+//---------------------------------------------------------------------------
+

@@ -1,0 +1,107 @@
+//---------------------------------------------------------------------------
+
+#ifndef ItemsformH
+#define ItemsformH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <ExtCtrls.hpp>
+#include <jpeg.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <IBQuery.hpp>
+//---------------------------------------------------------------------------
+class TItems : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TLabel *Label1;
+        TIBStoredProc *ItemSP;
+        TDataSource *ItemDS;
+        TDBGrid *DBGrid1;
+        TIBTable *ItemtypeTbl;
+        TIBStoredProc *ItemtypeSP;
+        TDataSource *ItemtypeDS;
+        TButton *Button1;
+        TIBStoredProc *CostrateSP;
+        TDataSource *CostrateDS;
+        TDBGrid *DBGrid2;
+        TButton *Button2;
+        TDBGrid *DBGrid3;
+        TDBGrid *DBGrid4;
+        TEdit *Edit1;
+        TEdit *Edit2;
+        TShape *loginshape;
+        TLabel *Label2;
+        TLabel *Label3;
+        TButton *AddMat;
+        TButton *RemoveMat;
+        TButton *Calc;
+        TShape *Shape1;
+        TLabel *Label4;
+        TButton *Button3;
+        TEdit *Edit3;
+        TEdit *Edit4;
+        TIBQuery *IBQuery1;
+        TDataSource *DataSource1;
+        TIBQuery *IBQuery2;
+        TDataSource *DataSource2;
+        TShape *Shape2;
+        TShape *Shape3;
+        TButton *Button6;
+        TIBQuery *SumQuery;
+        TDataSource *DataSource3;
+        TIBBCDField *SumQueryTOTAL;
+        TIBTable *ItemTbl;
+        TIntegerField *ItemTblID;
+        TIntegerField *ItemTblITEMTYPE_ID;
+        TIBStringField *ItemTblDESCRIPTION;
+        TIBTable *CostrateTbl;
+        TIntegerField *CostrateTblID;
+        TIntegerField *CostrateTblITEM_ID;
+        TIntegerField *CostrateTblMATERIAL_ID;
+        TIntegerField *CostrateTblQUANTITY;
+        TIBBCDField *CostrateTblPRICE;
+        TFloatField *CostrateTblTOTAL;
+        TFloatField *CostrateTblTOTALPRICE;
+        TStringField *ItemTblNAME;
+        TButton *Button4;
+        TEdit *Edit5;
+        TLabel *Label5;
+        TEdit *Itemedit;
+        TEdit *Edit6;
+        TIntegerField *ItemtypeTblID;
+        TIBStringField *ItemtypeTblNAME;
+        void __fastcall ItemTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall ItemtypeTblBeforePost(TDataSet *DataSet);
+        void __fastcall Edit1Change(TObject *Sender);
+        void __fastcall Edit2Change(TObject *Sender);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall RefreshClick(TObject *Sender);
+        void __fastcall AddMatClick(TObject *Sender);
+        void __fastcall RemoveMatClick(TObject *Sender);
+        void __fastcall ItemeditChange(TObject *Sender);
+        void __fastcall Button3Click(TObject *Sender);
+        void __fastcall Button4Click(TObject *Sender);
+        void __fastcall CalcClick(TObject *Sender);
+        void __fastcall Button5Click(TObject *Sender);
+        void __fastcall Button6Click(TObject *Sender);
+        void __fastcall CostrateTblBeforePost(TDataSet *DataSet);
+        void __fastcall DBGrid2ColumnMoved(TObject *Sender, int FromIndex,
+          int ToIndex);
+        void __fastcall DBGrid1CellClick(TColumn *Column);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TItems(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TItems *Items;
+//---------------------------------------------------------------------------
+#endif

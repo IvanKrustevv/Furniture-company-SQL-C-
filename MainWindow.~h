@@ -1,0 +1,141 @@
+//---------------------------------------------------------------------------
+
+#ifndef MainWindowH
+#define MainWindowH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <ExtCtrls.hpp>
+#include <jpeg.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <ComCtrls.hpp>
+#include <IBQuery.hpp>
+#include <Menus.hpp>
+//---------------------------------------------------------------------------
+class THomeScrean : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TLabel *Label1;
+        TIBStoredProc *ListofitemsSP;
+        TDataSource *ListofitemsDS;
+        TIBTable *ListofitemsTbl;
+        TDBGrid *DBGrid1;
+        TButton *newclientbutton;
+        TIntegerField *ListofitemsTblID;
+        TIntegerField *ListofitemsTblORDER_ID;
+        TIntegerField *ListofitemsTblITEM_ID;
+        TIntegerField *ListofitemsTblQUANTITY;
+        TIBBCDField *ListofitemsTblPRICE;
+        TIBQuery *IBQuery1;
+        TDataSource *DataSource1;
+        TIBQuery *IBQuery2;
+        TDataSource *DataSource2;
+        TShape *loginshape;
+        TDBGrid *DBGrid2;
+        TIntegerField *IBQuery2ID;
+        TIntegerField *IBQuery2ORDER_ID;
+        TIntegerField *IBQuery2ITEM_ID;
+        TIntegerField *IBQuery2QUANTITY;
+        TIBBCDField *IBQuery2PRICE;
+        TIntegerField *IBQuery2ID1;
+        TIntegerField *IBQuery2ITEMTYPE_ID;
+        TIBStringField *IBQuery2DESCRIPTION;
+        TIntegerField *IBQuery2ID2;
+        TIBStringField *IBQuery2NAME;
+        TIntegerField *IBQuery2ID3;
+        TIntegerField *IBQuery2CONTRAGENT_ID;
+        TIntegerField *IBQuery2STATUS_ID;
+        TIntegerField *IBQuery2WORKER_ID;
+        TIntegerField *IBQuery2NUMBER_ORDER;
+        TDateField *IBQuery2DATE_FROM;
+        TDateField *IBQuery2DATE_TO;
+        TIBStringField *IBQuery2DESCR_ORDER;
+        TIntegerField *IBQuery2PERCENTAGE_ORDER;
+        TIBBCDField *IBQuery2KAPARO;
+        TEdit *Edit1;
+        TLabel *Label2;
+        TIntegerField *IBQuery1ID;
+        TIntegerField *IBQuery1CONTRAGENT_ID;
+        TIntegerField *IBQuery1STATUS_ID;
+        TIntegerField *IBQuery1WORKER_ID;
+        TIntegerField *IBQuery1NUMBER_ORDER;
+        TDateField *IBQuery1DATE_FROM;
+        TDateField *IBQuery1DATE_TO;
+        TIBStringField *IBQuery1DESCR_ORDER;
+        TIntegerField *IBQuery1PERCENTAGE_ORDER;
+        TIBBCDField *IBQuery1KAPARO;
+        TIntegerField *IBQuery1ID1;
+        TIBStringField *IBQuery1NAME;
+        TIntegerField *IBQuery1BULSTAT_EGN;
+        TIBStringField *IBQuery1MOL;
+        TIBStringField *IBQuery1ADDRESS;
+        TIntegerField *IBQuery1PERCENTAGE;
+        TIntegerField *IBQuery1PHONE;
+        TIntegerField *IBQuery1ID2;
+        TIntegerField *IBQuery1POSITION_ID;
+        TIBStringField *IBQuery1FNAME;
+        TIBStringField *IBQuery1LNAME;
+        TIntegerField *IBQuery1PHONE1;
+        TIntegerField *IBQuery1ID3;
+        TIBStringField *IBQuery1DESCRIPTION;
+        TButton *Button9;
+        TLabel *Label3;
+        TEdit *Edit2;
+        TButton *Button11;
+        TButton *Button12;
+        TIBQuery *IBQuery4;
+        TDataSource *DataSource4;
+        TLabel *Label4;
+        TMainMenu *MainMenu1;
+        TMenuItem *fILE1;
+        TMenuItem *Logout1;
+        TMenuItem *Contragents1;
+        TMenuItem *Items1;
+        TMenuItem *Materials1;
+        TMenuItem *Ordersplaced1;
+        TMenuItem *Deliveries1;
+        TMenuItem *Receipts1;
+        TMenuItem *Co1;
+        TShape *Shape1;
+        TButton *Button1;
+        TLabel *Label5;
+        TMenuItem *Show1;
+        TMenuItem *CreateItem1;
+        TDateTimePicker *DateTimePicker1;
+        TIBQuery *IBQuery3;
+        TButton *Button2;
+        TEdit *Edit3;
+        TLabel *Label6;
+        void __fastcall ListofitemsTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall newclientbuttonClick(TObject *Sender);
+        void __fastcall Button11Click(TObject *Sender);
+        void __fastcall Button12Click(TObject *Sender);
+        void __fastcall Button9Click(TObject *Sender);
+        void __fastcall Exit1Click(TObject *Sender);
+        void __fastcall Logout1Click(TObject *Sender);
+        void __fastcall Materials1Click(TObject *Sender);
+        void __fastcall Ordersplaced1Click(TObject *Sender);
+        void __fastcall Deliveries1Click(TObject *Sender);
+        void __fastcall Receipts1Click(TObject *Sender);
+        void __fastcall Co1Click(TObject *Sender);
+        void __fastcall Show1Click(TObject *Sender);
+        void __fastcall CreateItem1Click(TObject *Sender);
+        void __fastcall DBGrid1CellClick(TColumn *Column);
+private:	// User declarations
+public:		// User declarations
+        __fastcall THomeScrean(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE THomeScrean *HomeScrean;
+//---------------------------------------------------------------------------
+#endif

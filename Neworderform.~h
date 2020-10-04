@@ -1,0 +1,89 @@
+//---------------------------------------------------------------------------
+
+#ifndef NeworderformH
+#define NeworderformH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <DB.hpp>
+#include <DBGrids.hpp>
+#include <ExtCtrls.hpp>
+#include <Grids.hpp>
+#include <IBCustomDataSet.hpp>
+#include <IBStoredProc.hpp>
+#include <IBTable.hpp>
+#include <jpeg.hpp>
+#include <IBQuery.hpp>
+//---------------------------------------------------------------------------
+class TNeworder : public TForm
+{
+__published:	// IDE-managed Components
+        TImage *Image1;
+        TLabel *Label1;
+        TIBTable *OrderTbl;
+        TIBTable *ContragentTbl;
+        TIBStoredProc *ContragentSP;
+        TDataSource *OrderDS;
+        TDataSource *ContragentDS;
+        TIBStoredProc *OrderSP;
+        TDBGrid *DBGrid1;
+        TDBGrid *DBGrid2;
+        TIntegerField *OrderTblID;
+        TIntegerField *OrderTblCONTRAGENT_ID;
+        TIntegerField *OrderTblSTATUS_ID;
+        TIntegerField *OrderTblWORKER_ID;
+        TIntegerField *OrderTblNUMBER_ORDER;
+        TDateField *OrderTblDATE_FROM;
+        TDateField *OrderTblDATE_TO;
+        TIBStringField *OrderTblDESCR_ORDER;
+        TIntegerField *OrderTblPERCENTAGE_ORDER;
+        TIBBCDField *OrderTblKAPARO;
+        TStringField *OrderTblCONTRAGENT;
+        TIntegerField *OrderTblPHONE;
+        TRadioGroup *RadioGroup1;
+        TButton *newclientbutton;
+        TEdit *searchedit;
+        TLabel *Label2;
+        TButton *Button1;
+        TIntegerField *ContragentTblID;
+        TIBStringField *ContragentTblNAME;
+        TIntegerField *ContragentTblBULSTAT_EGN;
+        TIBStringField *ContragentTblMOL;
+        TIBStringField *ContragentTblADDRESS;
+        TIntegerField *ContragentTblPERCENTAGE;
+        TIntegerField *ContragentTblPHONE;
+        TStringField *OrderTblWORKER;
+        TIBTable *StatusTbl;
+        TIBStoredProc *StatusSP;
+        TDataSource *DataSource1;
+        TStringField *OrderTblSTATUS;
+        TButton *Button2;
+        TButton *Button3;
+        TButton *Button5;
+        TButton *Button6;
+        TIntegerField *StatusTblID;
+        TIBStringField *StatusTblDESCRIPTION;
+        TLabel *Label3;
+        TIBQuery *IBQuery1;
+        void __fastcall OrderTblBeforePost(TDataSet *DataSet);
+        void __fastcall ContragentTblBeforePost(TDataSet *DataSet);
+        void __fastcall RadioGroup1Click(TObject *Sender);
+        void __fastcall searcheditChange(TObject *Sender);
+        void __fastcall Button1Click(TObject *Sender);
+        void __fastcall newclientbuttonClick(TObject *Sender);
+        void __fastcall StatusTblBeforePost(TDataSet *DataSet);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button3Click(TObject *Sender);
+        void __fastcall Button4Click(TObject *Sender);
+        void __fastcall Button5Click(TObject *Sender);
+        void __fastcall Button6Click(TObject *Sender);
+private:	// User declarations
+public:		// User declarations
+        __fastcall TNeworder(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TNeworder *Neworder;
+//---------------------------------------------------------------------------
+#endif
